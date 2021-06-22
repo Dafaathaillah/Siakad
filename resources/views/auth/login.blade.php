@@ -42,10 +42,16 @@
         <div class="container">
             <div class="row">
                 <div class="module module-login span4 offset4">
-                    <form class="form-vertical" action="{{route('login')}}" method="POST">
+                    <form class="form-vertical" action="{{url('user/login')}}" method="POST">
                         @csrf
                         <div class="module-head">
                             <h3>Masuk</h3>
+                             @if($message=Session::get('success'))
+                            <div class="alert bg-teal" role="alert">
+                                <em class="fa fa-lg fa-check">&nbsp;</em> 
+                               <p style="color: red">{{$message}}</p>
+                            </div>
+                            @endif
                         </div>
                         <div class="module-body">
                             <div class="control-group">

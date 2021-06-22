@@ -17,6 +17,7 @@ class CreateMahasiswasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_kelas');
             $table->string('nim');
+            $table->unsignedBigInteger('id_user');
             $table->string('nama_mahasiswa');
             $table->string('tempat_lahir')->nullable();
             $table->date('tanggal_lahir')->nullable();

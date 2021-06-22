@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use Carbon\Carbon;
+use DB;
 class HomeController extends Controller
 {
     /**
@@ -25,10 +27,17 @@ class HomeController extends Controller
     {
         if(Auth::user()->role=='admin')
         {
-            return view('home');
+            $jurusan = DB::table('jurusan')->count();
+            $dosen = DB::table('dosen')->count();
+            $mhs = DB::table('mahasiswa')->count();
+            return view('home',compact('jurusan','dosen','mhs'));
         }else
         {
-            return view('home_mahasiswa');
+           $mhs = DB::table('mahasiswa')->where('id_user',Auth::user()->id)->first();
+           $kelas = DB::table('kelas')->where('id',$mhs->id_kelas)->first();
+           $dosen = DB::table('dosen')->where('id',$kelas->id_dosen)->first();
+            $mks = DB::table('mahasiswa_matakuliah')->where('id_mahasiswa',$mhs->id)->count();
+            return view('home_mahasiswa',compact('dosen','mks'));
         }
         
     }

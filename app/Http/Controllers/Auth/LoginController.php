@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Auth;
 class LoginController extends Controller
 {
     /*
@@ -41,5 +43,25 @@ class LoginController extends Controller
     public function username()
     {
         return 'username';
+    }
+
+    public function loginaja(Request $request)
+    {
+        $user = User::where('username',$request->username)->first();
+        if($user)
+        {
+            if(!Hash::check($request->password, $user->password))
+            {
+                return redirect()->back()->with('success','Passowrd kamu salah!');
+            }else
+            {
+                $userlogin = User::find($user->id);
+                Auth::login($userlogin);
+                return redirect('home');
+            }
+        }else
+        {
+            return redirect()->back()->with('success','Username / Nim kamu salah!');
+        }
     }
 }

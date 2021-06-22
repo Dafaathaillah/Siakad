@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use DB;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -40,4 +40,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function cekMk($idmk,$idmhs)
+    {
+        $data = DB::table('mahasiswa_matakuliah')
+        ->where('id_matakuliah',$idmk)
+        ->where('id_mahasiswa',$idmhs)
+        ->first();
+        if($data)
+        {
+            return 'ada';
+        }else
+        {
+            return 'tidak';
+        }
+    }
+
+    public function pdfMk($idmk)
+    {
+        $mk = DB::table('mata_kuliah')->where('id',$idmk)->first();
+        return $mk;
+    }
 }

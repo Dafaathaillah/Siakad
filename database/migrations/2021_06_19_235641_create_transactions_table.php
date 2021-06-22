@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('id_mahasiswa');
             $table->double('nominal');
             $table->string('bukti_bayar')->nullable();
+            $table->string('tahun_angkatan')->nullable();
             $table->string('status')->nullable(); //lunas , belum;
             $table->timestamps();
         });
